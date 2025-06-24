@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+
+/* ====== BASE ====== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: #f5c518; /* Couleur dorée comme IMDb */
+}
+
+a {
+    color: #f5c518;
+    text-decoration: none;
+}
+
+img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* ====== LAYOUT ====== */
+x-layout {
+    display: block;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ====== FILM CARD ====== */
+div[accesskey] {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+div[accesskey]:hover {
+    transform: scale(1.01);
+}
+
+div[accesskey] h2 {
+    margin-top: 0;
+}
+
+div[accesskey] img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+/* ====== FOOTER INFO (note + durée) ====== */
+footer {
+    margin-top: 10px;
+    color: #aaa;
+    font-size: 0.9em;
+}
+
+/* ====== COMMENTAIRES ====== */
+div[accesskey] ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+div[accesskey] li {
+    margin-bottom: 8px;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 600px) {
+    div[accesskey] {
+        padding: 15px;
+    }
+
+    div[accesskey] img {
+        max-width: 100%;
+    }
+}

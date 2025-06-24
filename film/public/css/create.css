@@ -1,0 +1,85 @@
+/* ====== CREATE PAGE ====== */
+
+form {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #1f1f1f;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.07);
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="time"],
+form input[type="number"],
+form input[type="file"] {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2a2a2a;
+    color: #f5c518;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="date"]:focus,
+form input[type="time"]:focus,
+form input[type="number"]:focus,
+form input[type="file"]:focus {
+    background-color: #3a3a3a;
+    outline: none;
+}
+
+form label {
+    font-weight: 600;
+    color: #f5c518;
+    margin-left: 5px;
+    margin-bottom: 6px;
+}
+
+form button {
+    padding: 14px 0;
+    background-color: #f5c518;
+    border: none;
+    border-radius: 10px;
+    color: #121212;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #d4b716;
+}
+
+form button[type="button"] {
+    background-color: #444;
+    color: #f5c518;
+    margin-top: 10px;
+}
+
+form button[type="button"]:hover {
+    background-color: #666;
+}
+
+/* Pour le time input : affichage en HH:MM */
+input[type="time"] {
+    letter-spacing: 0.1em;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    form {
+        margin: 20px 15px;
+        padding: 20px;
+    }
+}
