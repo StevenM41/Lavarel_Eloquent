@@ -14,11 +14,42 @@ class FilmController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $films = Film::with('commentaires')->get();
+        $query = Film::query();
+
+        // Filtre
+        if ($request->filter === 'recent') {
+            // On affiche les films les plus récents (ex : mis en ligne dans les derniers 30 jours)
+            $query->where('mise_en_ligne', '>=', now()->subDays(30));
+        } elseif ($request->filter === 'top') {
+            // Films avec une note haute, ici >= 8 par exemple
+            $query->where('note', '>=', 8);
+        }
+
+        // Tri par note ? (par défaut desc)
+        if ($request->has('sort') && $request->sort === 'note_asc') {
+            $query->orderBy('note', 'asc');
+        } else {
+            // tri par défaut note desc
+            $query->orderBy('note', 'desc');
+        }
+
+        // Filtre "récents"
+        if ($request->has('filter') && $request->filter === 'recent') {
+            $query->recent();
+        }
+
+        // Filtre "top rated"
+        if ($request->has('filter') && $request->filter === 'top') {
+            $query->topRated();
+        }
+
+        $films = $query->get();
+
         return view('welcome', compact('films'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -80,20 +111,24 @@ class FilmController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($nom)
+// FilmController.php
+    public function show($id)
     {
-        $f = Film::where('nom', ucwords(str_replace('_', " ", $nom)))->first();
-        $film = Film::where('id',$f->id)->first();
-        $film->load('commentaires'); // Charger les commentaires si besoin
+        $film = Film::find($id);
+        if (!$film) {
+            abort(404, "Film non trouvé avec l'id $id");
+        }
+        $film->load('commentaires');
         return view('films.show', compact('film'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Film $film)
+    public function edit($id)
     {
-
+        $film = Film::where('id', $id)->first();
         return view('films.edit', compact('film'));
     }
 
@@ -115,7 +150,7 @@ class FilmController extends Controller
 
         $film->update($validated);
 
-        return redirect()->route('films.show', $film)->with('success', 'Film mis à jour avec succès !');
+        return redirect()->route('films.show', $film->id);
     }
 
     /**
@@ -125,8 +160,8 @@ class FilmController extends Controller
 
         $film = Film::where('id', $id)->first();
 
-        if ($film->image && file_exists(public_path('storage/images/' . $film->image))) {
-            unlink(public_path('storage/images/' . $film->image));
+        if ($film->image && file_exists(public_path("storage/images/{$film->image}"))) {
+            @unlink(public_path("storage/images/{$film->image}"));
         }
 
         $film->delete();

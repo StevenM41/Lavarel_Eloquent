@@ -13,9 +13,20 @@ class Film extends Model
     ];
 
 
-    public function getRouteKeyName()
+    public function scopeOrderByNote($query, $direction = 'desc')
     {
-        return 'slug';
+        return $query->orderBy('note', $direction);
+    }
+
+    public function scopeRecent($query, $months = 12)
+    {
+        $dateLimite = now()->subMonths($months);
+        return $query->where('mise_en_ligne', '>=', $dateLimite);
+    }
+
+    public function scopeTopRated($query, $minNote = 8)
+    {
+        return $query->where('note', '>=', $minNote);
     }
 
     public function commentaires()
